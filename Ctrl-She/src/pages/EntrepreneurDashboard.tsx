@@ -1,11 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { QRCodeSVG } from "qrcode.react";
 import {
   ClipboardList,
+  Copy,
   Edit3,
+  ExternalLink,
   Eye,
   MapPin,
   Package,
+  QrCode,
   Save,
   Share2,
   Sparkles,
@@ -24,6 +28,8 @@ export default function EntrepreneurDashboard() {
   const [businesses, setBusinesses] = useState(getBusinesses());
   const [isEditing, setIsEditing] = useState(false);
   const [savedMessage, setSavedMessage] = useState("");
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [qrMessage, setQrMessage] = useState("");
   const storeInfoRef = useRef<HTMLElement | null>(null);
 
   const business = businesses.find((item) => item.id === "artesanias-lupita") || businesses[0];
@@ -47,6 +53,22 @@ export default function EntrepreneurDashboard() {
   }
 
   const storeUrl = `${window.location.origin}/tienda/${business.id}`;
+
+  useEffect(() => {
+    if (!isQrModalOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsQrModalOpen(false);
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    document.body.classList.add("seller-store-modal-open");
+
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.body.classList.remove("seller-store-modal-open");
+    };
+  }, [isQrModalOpen]);
 
   const updateForm = (field: keyof StoreForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -117,6 +139,38 @@ export default function EntrepreneurDashboard() {
     }
   };
 
+  const openQrModal = () => {
+    setQrMessage("");
+    setIsQrModalOpen(true);
+  };
+
+  const copyStoreUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(storeUrl);
+      setQrMessage("Enlace de tienda copiado. Ya puedes pegarlo en WhatsApp, redes sociales o material impreso.");
+    } catch {
+      setQrMessage(`Enlace de tienda: ${storeUrl}`);
+    }
+  };
+
+  const shareQrStore = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: business.name,
+          text: `Conoce ${business.name} en Ctrl + She`,
+          url: storeUrl
+        });
+      } else {
+        await copyStoreUrl();
+        return;
+      }
+      setQrMessage("Tienda lista para difundirse.");
+    } catch {
+      // La usuaria puede cancelar el panel nativo de compartir sin que sea error visible.
+    }
+  };
+
   return (
     <div className="page dashboard seller-dashboard-page">
       <section className="seller-store-hero">
@@ -139,6 +193,9 @@ export default function EntrepreneurDashboard() {
             </Link>
             <button className="btn outline" type="button" onClick={shareStore}>
               <Share2 size={18} /> Compartir
+            </button>
+            <button className="btn outline seller-store-qr-trigger" type="button" onClick={openQrModal}>
+              <QrCode size={18} /> QR de tienda
             </button>
           </div>
 
@@ -225,6 +282,60 @@ export default function EntrepreneurDashboard() {
           </div>
         </article>
       </section>
+
+      {isQrModalOpen && (
+        <div className="seller-store-qr-backdrop" role="presentation" onMouseDown={() => setIsQrModalOpen(false)}>
+          <section
+            className="seller-store-qr-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="seller-store-qr-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <button className="seller-store-modal-close" type="button" aria-label="Cerrar QR de tienda" onClick={() => setIsQrModalOpen(false)}>
+              <X size={20} />
+            </button>
+
+            <div className="seller-store-qr-modal-header">
+              <span className="badge success">Tienda activa</span>
+              <h2 id="seller-store-qr-title">QR de {business.name}</h2>
+              <p>Escanéalo o compártelo para abrir la tienda pública directamente.</p>
+            </div>
+
+            <div className="seller-store-qr-content">
+              <div className="seller-store-qr-box" aria-label={`Código QR para abrir ${business.name}`}>
+                <QRCodeSVG value={storeUrl} size={210} bgColor="#FFFFFF" fgColor="#3B247A" level="H" />
+              </div>
+
+              <div className="seller-store-qr-details">
+                <div>
+                  <span className="eyebrow">Enlace público</span>
+                  <code>{storeUrl}</code>
+                </div>
+                <ul>
+                  <li>Úsalo en tarjetas, ferias, redes sociales o WhatsApp.</li>
+                  <li>Lleva al cliente directo al perfil público de la tienda.</li>
+                  <li>Funciona como material rápido de difusión para la emprendedora.</li>
+                </ul>
+              </div>
+            </div>
+
+            {qrMessage && <p className="seller-store-qr-message">{qrMessage}</p>}
+
+            <div className="seller-store-qr-actions">
+              <button className="btn primary" type="button" onClick={copyStoreUrl}>
+                <Copy size={18} /> Copiar enlace
+              </button>
+              <button className="btn outline" type="button" onClick={shareQrStore}>
+                <Share2 size={18} /> Compartir
+              </button>
+              <Link className="btn outline" to={`/tienda/${business.id}`} onClick={() => setIsQrModalOpen(false)}>
+                <ExternalLink size={18} /> Abrir tienda
+              </Link>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

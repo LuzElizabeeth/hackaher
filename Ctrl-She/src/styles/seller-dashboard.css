@@ -428,3 +428,156 @@
     width: 100%;
   }
 }
+
+/* =========================
+   Modal QR dentro de Mi tienda
+========================= */
+
+.seller-store-modal-open {
+  overflow: hidden;
+}
+
+.seller-store-qr-trigger {
+  border-color: rgba(124, 58, 237, .28) !important;
+  background: linear-gradient(135deg, #fff, #fbf8ff) !important;
+}
+
+.seller-store-qr-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(30, 27, 46, .48);
+  backdrop-filter: blur(8px);
+}
+
+.seller-store-qr-modal {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: min(92vh, 760px);
+  overflow: auto;
+  padding: clamp(22px, 4vw, 32px);
+  border: 1px solid rgba(171, 157, 255, .38);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(255, 178, 247, .28), transparent 32%),
+    linear-gradient(135deg, #fff, #f8f5ff 76%);
+  box-shadow: 0 28px 80px rgba(59, 36, 122, .28);
+}
+
+.seller-store-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(171, 157, 255, .45);
+  border-radius: 999px;
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, .82);
+  cursor: pointer;
+}
+
+.seller-store-qr-modal-header {
+  display: grid;
+  gap: 8px;
+  padding-right: 48px;
+}
+
+.seller-store-qr-modal-header h2 {
+  margin: 0;
+  color: var(--color-primary-dark);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.03;
+}
+
+.seller-store-qr-modal-header p {
+  max-width: 560px;
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
+.seller-store-qr-content {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.seller-store-qr-box {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border: 1px solid rgba(171, 157, 255, .34);
+  border-radius: 28px;
+  background: white;
+  box-shadow: 0 16px 34px rgba(124, 58, 237, .12);
+}
+
+.seller-store-qr-box svg {
+  width: min(210px, 100%);
+  height: auto;
+}
+
+.seller-store-qr-details {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.seller-store-qr-details code {
+  display: block;
+  margin-top: 8px;
+  padding: 12px 14px;
+  overflow-wrap: anywhere;
+  border-radius: 16px;
+  color: var(--color-primary-dark);
+  background: rgba(255, 255, 255, .82);
+  border: 1px solid rgba(171, 157, 255, .24);
+  font-weight: 800;
+}
+
+.seller-store-qr-details ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--color-muted);
+  line-height: 1.48;
+}
+
+.seller-store-qr-message {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  color: #166534;
+  background: #dcfce7;
+  font-weight: 850;
+}
+
+.seller-store-qr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+@media (max-width: 720px) {
+  .seller-store-qr-content {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-store-qr-box {
+    width: 100%;
+  }
+
+  .seller-store-qr-actions .btn {
+    width: 100%;
+  }
+}
