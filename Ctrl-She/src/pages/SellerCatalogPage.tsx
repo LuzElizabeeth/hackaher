@@ -7,6 +7,7 @@ import {
   PackagePlus,
   Save,
   Search,
+  Sparkles,
   Trash2,
   X
 } from "lucide-react";
@@ -31,6 +32,16 @@ type CatalogForm = {
 };
 
 type FormMode = "create" | "edit";
+
+type AiCatalogSuggestion = {
+  name: string;
+  description: string;
+  category: string;
+  price: string;
+  priceValue: number;
+  tags: string[];
+  recommendation: string;
+};
 
 function createEmptyForm(type: BusinessType): CatalogForm {
   return {
@@ -68,6 +79,176 @@ function getTypeDescription(type: BusinessType) {
   return "Administra productos con precio, stock, imagen y modalidad de entrega.";
 }
 
+function cleanText(value: string) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function capitalizeText(value: string) {
+  const cleaned = cleanText(value);
+
+  if (!cleaned) return "";
+
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
+function inferSuggestedName(form: CatalogForm, businessCategory: string) {
+  const name = cleanText(form.name);
+  const normalizedName = name.toLowerCase();
+
+  if (!name) {
+    if (form.type === "servicio") return "Servicio personalizado destacado";
+    if (form.type === "experiencia") return "Experiencia local para visitantes";
+
+    return businessCategory === "Artesanías y souvenirs"
+      ? "Pieza artesanal caribeña"
+      : "Producto destacado de la tienda";
+  }
+
+  if (form.type === "producto" && businessCategory === "Artesanías y souvenirs") {
+    if (!normalizedName.includes("artesanal") && !normalizedName.includes("hecho a mano")) {
+      return `${capitalizeText(name)} artesanal`;
+    }
+  }
+
+  if (form.type === "servicio" && !normalizedName.includes("personalizado")) {
+    return `${capitalizeText(name)} personalizado`;
+  }
+
+  if (form.type === "experiencia" && !normalizedName.includes("local")) {
+    return `${capitalizeText(name)} local`;
+  }
+
+  return capitalizeText(name);
+}
+
+function inferSuggestedPrice(form: CatalogForm) {
+  const currentPrice = Number(form.price);
+  const name = `${form.name} ${form.description}`.toLowerCase();
+
+  if (currentPrice > 0) return currentPrice;
+
+  if (form.type === "servicio") {
+    if (name.includes("foto") || name.includes("sesión") || name.includes("sesion")) return 900;
+    if (name.includes("uñas") || name.includes("unas") || name.includes("cejas")) return 300;
+    return 450;
+  }
+
+  if (form.type === "experiencia") {
+    if (name.includes("recorrido") || name.includes("tour")) return 400;
+    if (name.includes("taller")) return 250;
+    return 350;
+  }
+
+  if (name.includes("bolsa")) return 350;
+  if (name.includes("collar")) return 180;
+  if (name.includes("pulsera")) return 120;
+  if (name.includes("arete") || name.includes("aretes")) return 150;
+  if (name.includes("llavero") || name.includes("souvenir")) return 90;
+
+  return 180;
+}
+
+function buildAiTags(form: CatalogForm, businessCategory: string) {
+  const baseTags = ["Local", "Mujer emprendedora"];
+
+  if (form.type === "producto") {
+    return businessCategory === "Artesanías y souvenirs"
+      ? ["Hecho a mano", "Artesanal", "Souvenir", "Regalo", ...baseTags]
+      : ["Producto local", "Regalo", "Disponible", ...baseTags];
+  }
+
+  if (form.type === "servicio") {
+    return ["Servicio", "Atención personalizada", "Reserva en línea", "Confianza", ...baseTags];
+  }
+
+  return ["Experiencia turística", "Cancún", "Reserva en línea", "Actividad local", ...baseTags];
+}
+
+function buildAiRecommendation(form: CatalogForm) {
+  if (form.type === "producto") {
+    return "Conserva el stock, la modalidad de entrega y la imagen como datos reales. La IA solo te ayuda a hacer más vendible la ficha del producto.";
+  }
+
+  if (form.type === "servicio") {
+    return "Revisa que la duración, horarios y modalidad de atención sean correctos antes de publicar el servicio.";
+  }
+
+  return "Verifica cupo, idioma y punto de encuentro antes de publicar la experiencia para evitar confusiones con clientes.";
+}
+
+function buildAiCatalogSuggestion(
+  form: CatalogForm,
+  businessName: string,
+  businessCategory: string
+): AiCatalogSuggestion {
+  const suggestedName = inferSuggestedName(form, businessCategory);
+  const currentDescription = cleanText(form.description);
+  const suggestedPriceValue = inferSuggestedPrice(form);
+
+  if (form.type === "servicio") {
+    const duration = cleanText(form.duration);
+    const locationMode = cleanText(form.locationMode);
+
+    return {
+      name: suggestedName,
+      category: businessCategory,
+      priceValue: suggestedPriceValue,
+      price: money(suggestedPriceValue),
+      tags: buildAiTags(form, businessCategory),
+      recommendation: buildAiRecommendation(form),
+      description: cleanText(
+        `${suggestedName} de ${businessName}, pensado para brindar una atención clara, cercana y personalizada.` +
+          `${duration ? ` Tiene una duración aproximada de ${duration}.` : ""}` +
+          `${locationMode ? ` La atención se realiza mediante ${locationMode.toLowerCase()}.` : ""}` +
+          `${currentDescription ? ` ${currentDescription}` : ""}` +
+          " Ideal para clientes que buscan una experiencia confiable, bien organizada y fácil de reservar."
+      )
+    };
+  }
+
+  if (form.type === "experiencia") {
+    const duration = cleanText(form.duration);
+    const meetingPoint = cleanText(form.meetingPoint);
+    const language = cleanText(form.language);
+
+    return {
+      name: suggestedName,
+      category: businessCategory,
+      priceValue: suggestedPriceValue,
+      price: money(suggestedPriceValue),
+      tags: buildAiTags(form, businessCategory),
+      recommendation: buildAiRecommendation(form),
+      description: cleanText(
+        `${suggestedName} organizada por ${businessName}, creada para disfrutar una actividad local auténtica y bien acompañada.` +
+          `${duration ? ` La experiencia tiene una duración aproximada de ${duration}.` : ""}` +
+          `${language ? ` Se ofrece en ${language}.` : ""}` +
+          `${meetingPoint ? ` El punto de encuentro es ${meetingPoint}.` : ""}` +
+          `${currentDescription ? ` ${currentDescription}` : ""}` +
+          " Recomendada para visitantes que desean conocer más de la zona con una opción segura y sencilla de reservar."
+      )
+    };
+  }
+
+  const delivery = cleanText(form.delivery);
+  const stock = cleanText(form.stock);
+
+  return {
+    name: suggestedName,
+    category: businessCategory,
+    priceValue: suggestedPriceValue,
+    price: money(suggestedPriceValue),
+    tags: buildAiTags(form, businessCategory),
+    recommendation: buildAiRecommendation(form),
+    description: cleanText(
+      `${suggestedName} de ${businessName}, ideal para quienes buscan un detalle local, bonito y con identidad propia.` +
+        `${currentDescription ? ` ${currentDescription}` : ""}` +
+        `${stock ? ` Disponibilidad actual: ${stock} pieza(s).` : ""}` +
+        `${delivery ? ` La entrega se coordina mediante ${delivery.toLowerCase()}.` : ""}` +
+        " Una opción práctica para regalar, conservar como recuerdo o complementar una compra especial."
+    )
+  };
+}
+
 function parseSchedule(value: string) {
   return value
     .split(",")
@@ -103,6 +284,8 @@ export default function SellerCatalogPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<CatalogForm>(() => createEmptyForm(allowedType));
   const [formError, setFormError] = useState("");
+  const [aiSuggestion, setAiSuggestion] = useState<AiCatalogSuggestion | null>(null);
+  const [aiWasApplied, setAiWasApplied] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{ title: string; message: string } | null>(null);
 
   const catalogItems = useMemo(() => {
@@ -128,6 +311,8 @@ export default function SellerCatalogPage() {
     setEditingId(null);
     setForm(createEmptyForm(allowedType));
     setFormError("");
+    setAiSuggestion(null);
+    setAiWasApplied(false);
   };
 
   const openEditModal = (item: CatalogItem) => {
@@ -135,6 +320,8 @@ export default function SellerCatalogPage() {
     setEditingId(item.id);
     setForm(formFromItem(item));
     setFormError("");
+    setAiSuggestion(null);
+    setAiWasApplied(false);
   };
 
   const closeFormModal = () => {
@@ -142,6 +329,8 @@ export default function SellerCatalogPage() {
     setEditingId(null);
     setForm(createEmptyForm(allowedType));
     setFormError("");
+    setAiSuggestion(null);
+    setAiWasApplied(false);
   };
 
   const validateForm = () => {
@@ -191,6 +380,30 @@ export default function SellerCatalogPage() {
       language: allowedType === "experiencia" ? form.language.trim() : undefined,
       meetingPoint: allowedType === "experiencia" ? form.meetingPoint.trim() : undefined
     };
+  };
+
+  const generateAiSuggestion = () => {
+    setAiSuggestion(buildAiCatalogSuggestion(form, business.name, business.category));
+    setAiWasApplied(false);
+  };
+
+  const applyAiDescription = () => {
+    if (!aiSuggestion) return;
+
+    setForm({ ...form, description: aiSuggestion.description });
+    setAiWasApplied(true);
+  };
+
+  const applyAiMainFields = () => {
+    if (!aiSuggestion) return;
+
+    setForm({
+      ...form,
+      name: aiSuggestion.name,
+      description: aiSuggestion.description,
+      price: String(aiSuggestion.priceValue)
+    });
+    setAiWasApplied(true);
   };
 
   const saveItem = () => {
@@ -428,10 +641,99 @@ export default function SellerCatalogPage() {
                   Descripción
                   <textarea
                     value={form.description}
-                    onChange={(event) => setForm({ ...form, description: event.target.value })}
+                    onChange={(event) => {
+                      setForm({ ...form, description: event.target.value });
+                      setAiWasApplied(false);
+                    }}
                     placeholder="Describe qué incluye, para quién es y qué debe saber el cliente."
                   />
                 </label>
+
+                {formMode === "create" && (
+                  <section className="seller-catalog-ai-helper" aria-live="polite">
+                    <div className="seller-catalog-ai-helper-header">
+                      <span className="seller-catalog-ai-icon">
+                        <Sparkles size={18} />
+                      </span>
+                      <div>
+                        <h3>IA de sugerencias para catálogo</h3>
+                        <p>
+                          Genera una ficha más completa a partir del nombre, tipo de negocio y datos capturados.
+                          No es un chatbot: solo propone mejoras que tú decides aplicar.
+                        </p>
+                      </div>
+                    </div>
+
+                    {aiSuggestion ? (
+                      <div className="seller-catalog-ai-suggestion">
+                        <span>Sugerencias IA</span>
+
+                        <div className="seller-catalog-ai-suggestion-grid">
+                          <div className="seller-catalog-ai-field">
+                            <small>Nombre sugerido</small>
+                            <b>{aiSuggestion.name}</b>
+                          </div>
+
+                          <div className="seller-catalog-ai-field">
+                            <small>Categoría sugerida</small>
+                            <b>{aiSuggestion.category}</b>
+                          </div>
+
+                          <div className="seller-catalog-ai-field">
+                            <small>Precio sugerido</small>
+                            <b>{aiSuggestion.price}</b>
+                          </div>
+                        </div>
+
+                        <div className="seller-catalog-ai-description">
+                          <small>Descripción sugerida</small>
+                          <p>{aiSuggestion.description}</p>
+                        </div>
+
+                        <div className="seller-catalog-ai-tags" aria-label="Etiquetas recomendadas">
+                          {aiSuggestion.tags.map((tag) => (
+                            <span key={tag}>{tag}</span>
+                          ))}
+                        </div>
+
+                        <div className="seller-catalog-ai-recommendation">
+                          <small>Recomendación</small>
+                          <p>{aiSuggestion.recommendation}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="seller-catalog-ai-empty">
+                        Escribe al menos el nombre del elemento y presiona generar para recibir nombre mejorado,
+                        descripción, categoría, precio sugerido, etiquetas y recomendaciones comerciales.
+                      </div>
+                    )}
+
+                    <div className="seller-catalog-ai-actions">
+                      <button className="btn small outline" type="button" onClick={generateAiSuggestion}>
+                        <Sparkles size={15} />
+                        {aiSuggestion ? "Actualizar sugerencias" : "Generar sugerencias con IA"}
+                      </button>
+
+                      {aiSuggestion && (
+                        <>
+                          <button className="btn small outline" type="button" onClick={applyAiDescription}>
+                            Usar descripción
+                          </button>
+
+                          <button className="btn small primary" type="button" onClick={applyAiMainFields}>
+                            Aplicar nombre, precio y descripción
+                          </button>
+                        </>
+                      )}
+                    </div>
+
+                    {aiWasApplied && (
+                      <small className="seller-catalog-ai-applied">
+                        Sugerencia aplicada. Revisa y edita los campos antes de guardar el producto.
+                      </small>
+                    )}
+                  </section>
+                )}
 
                 <label>
                   URL de imagen
