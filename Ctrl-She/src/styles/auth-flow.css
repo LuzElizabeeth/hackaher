@@ -1,0 +1,74 @@
+/* =========================
+   Flujo demo de registro
+========================= */
+
+.auth-demo-flow {
+  display: grid;
+  gap: 14px;
+  margin-top: 10px;
+  padding: 16px;
+  border: 1px solid rgba(171, 157, 255, .32);
+  border-radius: 20px;
+  background: rgba(248, 245, 255, .72);
+}
+
+.auth-demo-flow h3 {
+  margin: 0;
+  color: var(--color-primary-dark);
+}
+
+.auth-demo-flow p {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
+.auth-business-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.auth-business-type-card {
+  display: grid;
+  gap: 7px;
+  min-height: 132px;
+  padding: 14px;
+  border: 1px solid rgba(171, 157, 255, .38);
+  border-radius: 18px;
+  background: white;
+  color: var(--color-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.auth-business-type-card b {
+  color: var(--color-primary-dark);
+}
+
+.auth-business-type-card span {
+  line-height: 1.35;
+  font-size: .9rem;
+}
+
+.auth-business-type-card:hover,
+.auth-business-type-card.active {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, .12);
+}
+
+.auth-demo-note {
+  padding: 12px;
+  border-radius: 16px;
+  background: white;
+  color: var(--color-primary-dark);
+  font-weight: 800;
+}
+
+@media (max-width: 720px) {
+  .auth-business-type-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,419 @@
+/* =========================
+   Dashboard de emprendedora
+   Estilos aislados
+========================= */
+
+.seller-dashboard-page {
+  max-width: 1240px;
+}
+
+.seller-dashboard-hero {
+  display: grid;
+  gap: 12px;
+  padding: clamp(24px, 4vw, 38px);
+  margin-bottom: 22px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 95% 5%, rgba(255, 178, 247, .26), transparent 28%),
+    linear-gradient(135deg, #fff, #f8f5ff);
+}
+
+.seller-dashboard-hero h1 {
+  margin: 10px 0 8px;
+  color: var(--color-primary-dark);
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.seller-dashboard-hero p {
+  max-width: 820px;
+  margin: 0 0 8px;
+  color: var(--color-muted);
+  line-height: 1.65;
+}
+
+.seller-dashboard-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: start;
+}
+
+.seller-dashboard-main {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+.seller-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.seller-dashboard-card h2 {
+  margin-top: 0;
+  color: var(--color-primary-dark);
+}
+
+.seller-dashboard-side {
+  display: grid;
+  gap: 18px;
+  position: sticky;
+  top: 92px;
+  align-self: start;
+  min-width: 0;
+}
+
+/* Esto evita que el asistente se encime dentro del dashboard */
+.seller-dashboard-page .control-assistant {
+  position: static !important;
+  top: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  width: 100%;
+}
+
+.seller-dashboard-page .assistant-list {
+  grid-template-columns: 1fr;
+}
+
+.seller-dashboard-page .prediction-grid {
+  grid-template-columns: 1fr;
+}
+
+.seller-dashboard-qr .qr-card {
+  width: 100%;
+}
+
+@media (max-width: 1050px) {
+  .seller-dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-dashboard-side {
+    position: static;
+  }
+
+  .seller-dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .seller-dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-dashboard-page .compact-list div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .seller-dashboard-page .compact-list .btn {
+    width: 100%;
+  }
+}
+/* =========================
+   Mi tienda / emprendedora
+========================= */
+
+.seller-store-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: 22px;
+  align-items: stretch;
+  margin-bottom: 22px;
+  padding: clamp(24px, 4vw, 34px);
+  border: 1px solid rgba(171, 157, 255, .32);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(255, 178, 247, .30), transparent 30%),
+    linear-gradient(135deg, #fff, #f8f5ff 70%);
+  box-shadow: 0 18px 42px rgba(124, 58, 237, .10);
+}
+
+.seller-store-hero-copy {
+  display: grid;
+  align-content: center;
+  gap: 13px;
+}
+
+.seller-store-hero h1 {
+  margin: 0;
+  color: var(--color-primary-dark);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  line-height: .95;
+}
+
+.seller-store-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.65;
+}
+
+.seller-store-actions,
+.seller-store-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.seller-store-actions .btn,
+.seller-store-side-card .btn,
+.seller-store-form-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.seller-store-alert {
+  width: max-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: #166534;
+  background: #dcfce7;
+  font-weight: 850;
+}
+
+.seller-store-cover {
+  position: relative;
+  min-height: 280px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--color-bg);
+}
+
+.seller-store-cover img {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+}
+
+.seller-store-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(45, 23, 84, .82));
+}
+
+.seller-store-cover div {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  gap: 4px;
+  color: #fff;
+}
+
+.seller-store-cover strong {
+  font-size: 1.4rem;
+}
+
+.seller-store-cover span {
+  opacity: .9;
+  font-weight: 800;
+}
+
+.seller-store-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 22px;
+}
+
+.seller-store-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+.seller-store-grid.bottom {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr);
+}
+
+.seller-store-section-title h2 {
+  margin: 4px 0 0;
+  color: var(--color-primary-dark);
+}
+
+.seller-store-info-card,
+.seller-store-side-card,
+.seller-store-reviews {
+  border: 1px solid rgba(171, 157, 255, .28);
+}
+
+.seller-store-details {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.seller-store-details p {
+  margin: 0;
+  padding: 13px 14px;
+  border-radius: 16px;
+  color: var(--color-muted);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+.seller-store-details b {
+  color: var(--color-primary-dark);
+}
+
+.seller-store-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.seller-store-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--color-primary);
+  font-weight: 850;
+}
+
+.seller-store-form label.full,
+.seller-store-form-actions {
+  grid-column: 1 / -1;
+}
+
+.seller-store-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.seller-store-side-card {
+  display: grid;
+  gap: 12px;
+  position: sticky;
+  top: 92px;
+}
+
+.seller-store-side-card > svg {
+  width: 42px;
+  height: 42px;
+  color: var(--color-primary);
+}
+
+.seller-store-side-card h2,
+.seller-store-side-card p {
+  margin: 0;
+}
+
+.seller-store-side-card p {
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
+.seller-store-items,
+.seller-store-trust-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.seller-store-item {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(171, 157, 255, .24);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.seller-store-item-image {
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
+  overflow: hidden;
+  border-radius: 18px;
+  color: var(--color-primary);
+  background: var(--color-bg);
+}
+
+.seller-store-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.seller-store-item strong,
+.seller-store-item span {
+  display: block;
+}
+
+.seller-store-item strong {
+  color: var(--color-primary-dark);
+}
+
+.seller-store-item span {
+  margin-top: 3px;
+  color: var(--color-primary);
+  font-weight: 900;
+}
+
+.seller-store-item p {
+  margin: 5px 0 0;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+.seller-store-trust-list p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 13px 14px;
+  border-radius: 16px;
+  color: var(--color-primary-dark);
+  background: var(--color-bg);
+  font-weight: 850;
+}
+
+.seller-store-trust-list svg {
+  color: var(--color-primary);
+}
+
+@media (max-width: 1050px) {
+  .seller-store-hero,
+  .seller-store-grid,
+  .seller-store-grid.bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-store-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .seller-store-side-card {
+    position: static;
+  }
+}
+
+@media (max-width: 680px) {
+  .seller-store-stats,
+  .seller-store-form {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-store-actions .btn,
+  .seller-store-form-actions .btn,
+  .seller-store-side-card .btn {
+    width: 100%;
+  }
+}
