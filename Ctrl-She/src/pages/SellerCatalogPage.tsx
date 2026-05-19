@@ -64,7 +64,7 @@ function createEmptyForm(type: BusinessType): CatalogForm {
 function getTypeLabel(type: BusinessType) {
   if (type === "servicio") return "Servicio personal";
   if (type === "experiencia") return "Experiencia turística";
-  return "Producto físico";
+  return "Producto o servicio";
 }
 
 function getTypeDescription(type: BusinessType) {
@@ -471,15 +471,13 @@ export default function SellerCatalogPage() {
           <span className="eyebrow">Catálogo de la tienda</span>
           <h1>Gestionar catálogo</h1>
           <p>
-            Administra los elementos que aparecen en tu tienda. Este negocio está configurado como{" "}
-            <b>{getTypeLabel(allowedType)}</b>, por eso solo puedes agregar elementos de ese tipo.
+            Administra los elementos que aparecen en tu tienda. Agrega, edita o retira productos, servicios o experiencias sin complicaciones y con sugerencias para hacerlos más atractivos.
           </p>
         </div>
 
         <aside className="seller-catalog-hero-card">
-          <span>{getTypeLabel(allowedType)}</span>
+          <span>Elemento(s) publicados</span>
           <strong>{catalogItems.length}</strong>
-          <small>elemento(s) publicados</small>
         </aside>
       </section>
 
