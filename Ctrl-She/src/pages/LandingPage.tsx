@@ -106,20 +106,19 @@ export default function LandingPage() {
             </div>
             <div className="store-mini-art">
   <img
-    src="/logo.png"
-    alt="Ctrl She"
-    style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "contain",
-      padding: "20px",
-    }}
-  />
+  src="/logo.png"
+  alt="Ctrl She"
+  style={{
+    width: "72%",
+    maxWidth: "420px",
+    objectFit: "contain",
+    display: "block",
+    margin: "0 auto",
+    filter: "drop-shadow(0 18px 34px rgba(76,36,155,0.15))",
+  }}
+/>
 </div>
-            <div className="store-mini-footer">
-              <span className="rating"><Star size={16} fill="currentColor" /> </span>
-              <span className="whatsapp-chip"><MessageSquare size={16} /> WhatsApp</span>
-            </div>
+
           </div>
         </div>
       </section>
