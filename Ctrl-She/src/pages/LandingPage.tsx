@@ -93,22 +93,12 @@ export default function LandingPage() {
                 Registrar emprendimiento
               </Link>
             </div>
-            <div className="impact-stats">
-              <p>Datos que nos impulsan:</p>
-              <div>
-                <strong>39.7h</strong><span>semanales dedicadas por mujeres a trabajo doméstico y cuidados.</span>
-              </div>
-              <div>
-                <strong>95.5%</strong><span>de las unidades económicas en México son microempresas.</span>
-              </div>
-            </div>
           </div>
 
           <div className="hero-preview-card" aria-label="Vista previa de negocio destacado">
             <div className="store-mini-header">
               <div className="mini-icon"><Star size={20} /></div>
               <div>
-                <strong>Tu negocio. Tu tiempo. Tu control.</strong>
                 <span>Una plataforma digital para que mujeres emprendedoras compartan su tienda, reciban pedidos, usen IA comercial y recuperen control sobre su tiempo.
 
 </span>
