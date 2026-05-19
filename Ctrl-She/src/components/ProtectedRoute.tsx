@@ -10,7 +10,7 @@ export default function ProtectedRoute({ roles, children }: { roles: UserRole[];
       <section className="access-card card">
         <span className="badge pending">Acceso restringido</span>
         <h1>No tienes acceso a esta seccion</h1>
-        <p>{isAuthenticated ? "Tu rol actual no tiene permiso para entrar aqui." : "Inicia sesion con una cuenta demo para continuar."}</p>
+        <p>{isAuthenticated ? "Tu rol actual no tiene permiso para entrar aqui." : "Inicia sesion con una cuenta para continuar."}</p>
         <div className="cta-row">
           <Link className="btn primary" to="/login">Iniciar sesion</Link>
           <Link className="btn outline" to="/">Volver al inicio</Link>

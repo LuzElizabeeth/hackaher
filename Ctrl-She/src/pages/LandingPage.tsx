@@ -232,7 +232,7 @@ export default function LandingPage() {
       <section className="home-section testimonials-section">
         <div className="section-heading center">
           <h2>Emprendedoras que ya usan Ctrl+She</h2>
-          <p>Historias demo para mostrar el impacto de la plataforma.</p>
+          <p>Historias para mostrar el impacto de la plataforma.</p>
         </div>
         <div className="testimonial-grid">
           {testimonials.map(([name, business, quote]) => (
@@ -255,7 +255,7 @@ export default function LandingPage() {
           <p>Únete a una comunidad de mujeres emprendedoras que transforman la economía local de Cancún.</p>
           <div className="cta-row center-row">
             <Link className="btn primary" to="/explorar">Explorar negocios</Link>
-            <Link className="btn outline" to="/login">Ver demo de panel</Link>
+            <Link className="btn outline" to="/login">Ver panel</Link>
           </div>
         </div>
       </section>
