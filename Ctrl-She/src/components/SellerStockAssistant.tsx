@@ -1,85 +1,109 @@
 import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AlertTriangle, ArrowRight, BellRing, Boxes, CheckCircle2, PackageCheck, Sparkles, X } from "lucide-react";
+import { ArrowRight, BellRing, CheckCircle2, Image, Megaphone, PackageCheck, PencilLine, Sparkles, TrendingUp, X } from "lucide-react";
 import { useAuth } from "../auth/AuthContext";
-import { businesses } from "../data/mockData";
-import type { CatalogItem } from "../types";
 
 type StockLevel = "crítico" | "bajo" | "preventivo";
+type SignalType = "Bajo stock" | "Alta visualización" | "Descripción" | "Imagen" | "Tendencia";
 
 interface StockRecommendation {
   id: string;
   productName: string;
   businessName: string;
-  stock: number;
+  metric: string;
   level: StockLevel;
+  signal: SignalType;
   title: string;
   message: string;
   nextStep: string;
+  confidence: string;
 }
 
 const SELLER_PATHS = ["/emprendedora", "/catalogo", "/pedidos", "/qr", "/ia"];
-const LOW_STOCK_LIMIT = 4;
 
 function isSellerView(pathname: string, role: ReturnType<typeof useAuth>["role"]) {
   return role === "emprendedora" || SELLER_PATHS.some((path) => pathname.startsWith(path));
 }
 
-function getLevel(stock: number): StockLevel {
-  if (stock <= 1) return "crítico";
-  if (stock <= 3) return "bajo";
-  return "preventivo";
-}
-
-function getRecommendation(item: CatalogItem, businessName: string): StockRecommendation | null {
-  if (typeof item.stock !== "number" || item.stock > LOW_STOCK_LIMIT) return null;
-
-  const level = getLevel(item.stock);
-
-  const copyByLevel: Record<StockLevel, Pick<StockRecommendation, "title" | "message" | "nextStep">> = {
-    crítico: {
-      title: "Stock casi agotado",
-      message: `Solo queda ${item.stock} pieza disponible. Conviene pausar la promoción o preparar más unidades antes de recibir nuevos pedidos.`,
-      nextStep: "Surtir o actualizar disponibilidad hoy."
-    },
-    bajo: {
-      title: "Stock bajo",
-      message: `Quedan ${item.stock} piezas disponibles. Es buen momento para planear reposición y evitar que el producto se agote durante una venta.`,
-      nextStep: "Preparar más piezas o ajustar el stock."
-    },
-    preventivo: {
-      title: "Alerta preventiva",
-      message: `Quedan ${item.stock} piezas. Todavía hay disponibilidad, pero ya conviene revisar si se debe surtir para mantener activo el producto.`,
-      nextStep: "Revisar inventario y definir reposición."
-    }
-  };
-
-  const copy = copyByLevel[level];
-
-  return {
-    id: item.id,
-    productName: item.name,
-    businessName,
-    stock: item.stock,
-    level,
-    title: copy.title,
-    message: copy.message,
-    nextStep: copy.nextStep
-  };
-}
-
 function getStockRecommendations() {
-  return businesses.flatMap((business) =>
-    business.items
-      .map((item) => getRecommendation(item, business.name))
-      .filter((recommendation): recommendation is StockRecommendation => Boolean(recommendation))
-  );
+  const recommendations: StockRecommendation[] = [
+    {
+      id: "ai-low-stock-bolsa",
+      productName: "Bolsa tejida",
+      businessName: "Artesanías Lupita",
+      metric: "4 piezas",
+      level: "bajo",
+      signal: "Bajo stock",
+      title: "Bajo stock en Bolsa tejida",
+      message: "Quedan 4 piezas disponibles. Si este producto recibe pedidos esta semana, podrías quedarte sin unidades para entrega inmediata.",
+      nextStep: "Reponer inventario o marcarlo como bajo pedido.",
+      confidence: "Prioridad alta"
+    },
+    {
+      id: "ai-high-views-pulsera",
+      productName: "Pulsera Caribe Maya",
+      businessName: "Artesanías Lupita",
+      metric: "Alta visualización",
+      level: "preventivo",
+      signal: "Alta visualización",
+      title: "Pulsera Caribe Maya está recibiendo más visitas",
+      message: "Este producto concentra más atención que el resto del catálogo. Conviene mantenerlo visible y revisar que precio, stock e imagen estén actualizados.",
+      nextStep: "Destacarlo en redes o convertirlo en producto principal.",
+      confidence: "Confianza alta"
+    },
+    {
+      id: "ai-description-collar",
+      productName: "Collar de conchas",
+      businessName: "Artesanías Lupita",
+      metric: "Texto corto",
+      level: "preventivo",
+      signal: "Descripción",
+      title: "Mejorar descripción de Collar de conchas",
+      message: "La descripción explica el producto, pero no menciona ocasión de uso, materiales ni valor artesanal. Eso puede reducir la intención de compra.",
+      nextStep: "Agregar materiales, estilo y una frase de uso: regalo, playa o recuerdo de Cancún.",
+      confidence: "Confianza media"
+    },
+    {
+      id: "ai-image-bolsa",
+      productName: "Bolsa tejida",
+      businessName: "Artesanías Lupita",
+      metric: "Imagen oscura",
+      level: "bajo",
+      signal: "Imagen",
+      title: "Mejorar imagen de Bolsa tejida",
+      message: "La foto se percibe más oscura que las demás. Una imagen con mejor luz ayudaría a entender textura, tamaño y color.",
+      nextStep: "Subir foto clara, con fondo neutro o mostrando la bolsa en uso.",
+      confidence: "Confianza media"
+    },
+    {
+      id: "ai-trend-caribe-stock",
+      productName: "Accesorios Caribe",
+      businessName: "Artesanías Lupita",
+      metric: "Tendencia próxima",
+      level: "preventivo",
+      signal: "Tendencia",
+      title: "Preparar stock para tendencia Caribe",
+      message: "Viene una temporada con mayor interés en recuerdos de playa y piezas ligeras. Conviene tener más stock de pulseras, collares y accesorios fáciles de transportar.",
+      nextStep: "Aumentar stock de Pulsera Caribe Maya y Collar de conchas.",
+      confidence: "Confianza alta"
+    }
+  ];
+
+  return recommendations;
 }
 
 function getLevelLabel(level: StockLevel) {
   if (level === "crítico") return "Crítico";
   if (level === "bajo") return "Stock bajo";
   return "Preventivo";
+}
+
+function getSignalIcon(signal: SignalType) {
+  if (signal === "Alta visualización") return <TrendingUp size={15} />;
+  if (signal === "Descripción") return <PencilLine size={15} />;
+  if (signal === "Imagen") return <Image size={15} />;
+  if (signal === "Tendencia") return <Megaphone size={15} />;
+  return <PackageCheck size={15} />;
 }
 
 export default function SellerStockAssistant() {
@@ -100,7 +124,6 @@ export default function SellerStockAssistant() {
         <div className="stock-assistant-panel" role="dialog" aria-modal="false" aria-label="Recomendaciones de inventario">
           <header className="stock-assistant-header">
             <div className="stock-assistant-doll" aria-hidden="true">
-              <span>She</span>
               <Sparkles size={14} />
             </div>
             <div>
@@ -115,9 +138,9 @@ export default function SellerStockAssistant() {
           {alertCount > 0 ? (
             <>
               <div className="stock-assistant-summary">
-                <BellRing size={18} />
-                <p>
-                  Detecté {alertCount} producto{alertCount === 1 ? "" : "s"} con pocas piezas disponibles. Revisa la sugerencia antes de que se agote el catálogo.
+                  <BellRing size={18} />
+                  <p>
+                  Detecté {alertCount} recomendaciones claras para catálogo: stock, visualizaciones, descripción, imagen y tendencia.
                 </p>
               </div>
 
@@ -126,8 +149,9 @@ export default function SellerStockAssistant() {
                   <article key={alert.id} className={`stock-alert-card ${alert.level}`}>
                     <div className="stock-alert-topline">
                       <span className="stock-alert-level">{getLevelLabel(alert.level)}</span>
-                      <strong>{alert.stock} pieza{alert.stock === 1 ? "" : "s"}</strong>
+                      <strong>{alert.metric}</strong>
                     </div>
+                    <span className="stock-alert-signal">{getSignalIcon(alert.signal)} {alert.signal} · {alert.confidence}</span>
                     <h3>{alert.productName}</h3>
                     <small>{alert.businessName}</small>
                     <p>{alert.message}</p>
@@ -151,7 +175,7 @@ export default function SellerStockAssistant() {
               <CheckCircle2 size={24} />
               <h3>Sin alertas críticas</h3>
               <p>
-                Por ahora no hay productos con stock bajo. Cuando un producto tenga {LOW_STOCK_LIMIT} piezas o menos, She mostrará una recomendación aquí.
+                Por ahora no hay recomendaciones pendientes. Cuando detecte señales relevantes en tu catálogo, She las mostrará aquí.
               </p>
               <Link to="/catalogo" onClick={() => setIsOpen(false)}>
                 Revisar catálogo
@@ -166,11 +190,10 @@ export default function SellerStockAssistant() {
           <Sparkles size={16} />
         </span>
         <span className="stock-launcher-copy">
-          <strong>She te avisa</strong>
-          <small>{mainAlert ? `${mainAlert.productName}: ${mainAlert.stock} disponibles` : "Revisar inventario"}</small>
+          <strong>Señales IA</strong>
+          <small>{mainAlert ? `${mainAlert.signal}: ${mainAlert.productName}` : "Revisar catálogo"}</small>
         </span>
         {alertCount > 0 && <span className="stock-launcher-badge">{alertCount}</span>}
-        <Boxes size={18} aria-hidden="true" />
       </button>
     </section>
   );

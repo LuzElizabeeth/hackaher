@@ -249,18 +249,12 @@ export default function AdminDashboard() {
       <section className="admin-hero-v2">
         <div>
           <span className="eyebrow">Panel de administrador</span>
-          <h1>Gestión general de Ctrl + She</h1>
+          <h1>Gestión general de <span>Ctrl&nbsp;+&nbsp;She</span></h1>
           <p>
             Administra perfiles de emprendedoras, revisa validaciones, reportes,
             categorías, negocios destacados y métricas generales de operación.
           </p>
         </div>
-
-        <aside className="admin-hero-card">
-          <span>Actividad registrada</span>
-          <strong>{metrics.orders}</strong>
-          <span>pedidos y reservas generadas</span>
-        </aside>
       </section>
 
       <nav className="admin-tabs-v2" aria-label="Secciones del panel administrador">
@@ -317,11 +311,6 @@ export default function AdminDashboard() {
               <strong>{metrics.pendingValidations}</strong>
             </article>
 
-            <article className="admin-metric-card">
-              <AlertTriangle />
-              <span>Reportes abiertos</span>
-              <strong>{metrics.pendingReports}</strong>
-            </article>
           </section>
 
           <section className="admin-section-v2">
