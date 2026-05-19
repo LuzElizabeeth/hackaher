@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ClipboardList,
@@ -15,17 +15,11 @@ import {
   X
 } from "lucide-react";
 import ReviewCard from "../components/ReviewCard";
-import { getBusinesses, getOrders, money, saveBusinesses } from "../lib/storage";
+import { getBusinesses, money, saveBusinesses } from "../lib/storage";
 import type { Business } from "../types";
 import "../styles/seller-dashboard.css";
 
 type StoreForm = Pick<Business, "name" | "owner" | "description" | "phone" | "zone" | "hours" | "image">;
-
-function getTypeLabel(type: Business["type"]) {
-  if (type === "servicio") return "Servicios";
-  if (type === "experiencia") return "Experiencias";
-  return "Productos";
-}
 
 function getItemDetail(item: Business["items"][number]) {
   if (item.type === "producto") return `${item.stock ?? 0} disponibles · ${item.delivery || "Entrega por acordar"}`;
@@ -37,9 +31,9 @@ export default function EntrepreneurDashboard() {
   const [businesses, setBusinesses] = useState(getBusinesses());
   const [isEditing, setIsEditing] = useState(false);
   const [savedMessage, setSavedMessage] = useState("");
+  const storeInfoRef = useRef<HTMLElement | null>(null);
 
   const business = businesses.find((item) => item.id === "artesanias-lupita") || businesses[0];
-  const orders = getOrders();
 
   const [form, setForm] = useState<StoreForm>(() => ({
     name: business?.name || "",
@@ -51,11 +45,6 @@ export default function EntrepreneurDashboard() {
     image: business?.image || ""
   }));
 
-  const businessOrders = useMemo(() => {
-    if (!business) return [];
-    return orders.filter((order) => order.businessId === business.id);
-  }, [business, orders]);
-
   if (!business) {
     return (
       <div className="page dashboard seller-dashboard-page">
@@ -65,10 +54,6 @@ export default function EntrepreneurDashboard() {
   }
 
   const storeUrl = `${window.location.origin}/tienda/${business.id}`;
-  const pendingOrders = businessOrders.filter((order) =>
-    ["Solicitado", "Confirmado", "En proceso", "Listo / reservado"].includes(order.status)
-  );
-  const salesTotal = businessOrders.reduce((total, order) => total + order.amount, 0);
   const visibleItems = business.items.filter((item) => item.type === business.type).slice(0, 3);
 
   const updateForm = (field: keyof StoreForm, value: string) => {
@@ -112,16 +97,31 @@ export default function EntrepreneurDashboard() {
     setSavedMessage("");
   };
 
+  const startEdit = () => {
+    setIsEditing(true);
+    setSavedMessage("");
+
+    window.setTimeout(() => {
+      const panelTop = storeInfoRef.current?.getBoundingClientRect().top;
+
+      if (panelTop === undefined) return;
+
+      window.scrollTo({
+        top: window.scrollY + panelTop - 120,
+        behavior: "smooth"
+      });
+    }, 0);
+  };
+
   const shareStore = async () => {
     try {
       if (navigator.share) {
         await navigator.share({ title: business.name, text: business.description, url: storeUrl });
       } else {
         await navigator.clipboard.writeText(storeUrl);
-        setSavedMessage("Enlace copiado para compartir tu tienda.");
       }
     } catch {
-      setSavedMessage("No se pudo compartir. Copia el enlace desde Ver tienda.");
+      // El boton de compartir es silencioso para no mostrar avisos si el navegador lo bloquea.
     }
   };
 
@@ -129,17 +129,17 @@ export default function EntrepreneurDashboard() {
     <div className="page dashboard seller-dashboard-page">
       <section className="seller-store-hero">
         <div className="seller-store-hero-copy">
-          <span className={business.status === "Verificada" ? "badge success" : "badge pending"}>
+          <span className={business.status === "Verificada" ? "badge success seller-store-status" : "badge pending seller-store-status"}>
             {business.status}
           </span>
-          <h1>Mi tienda</h1>
+          <h1>{business.name}</h1>
           <p>
             Administra la información que verán tus clientes, revisa tus métricas principales
             y entra rápido a catálogo, pedidos o vista pública.
           </p>
 
           <div className="seller-store-actions">
-            <button className="btn primary" type="button" onClick={() => setIsEditing(true)}>
+            <button className="btn primary" type="button" onClick={startEdit}>
               <Edit3 size={18} /> Editar información
             </button>
             <Link className="btn outline" to={`/tienda/${business.id}`}>
@@ -162,38 +162,8 @@ export default function EntrepreneurDashboard() {
         </div>
       </section>
 
-      <section className="seller-dashboard-stats seller-store-stats">
-        <article className="stat-card">
-          <Store />
-          <span>Tipo de tienda</span>
-          <strong>{getTypeLabel(business.type)}</strong>
-          <p>Define el tipo de catálogo que puedes publicar.</p>
-        </article>
-
-        <article className="stat-card info">
-          <Package />
-          <span>Catálogo activo</span>
-          <strong>{business.items.length}</strong>
-          <p>Elementos disponibles en tu tienda.</p>
-        </article>
-
-        <article className="stat-card success">
-          <ClipboardList />
-          <span>Pedidos activos</span>
-          <strong>{pendingOrders.length}</strong>
-          <p>Solicitudes que requieren seguimiento.</p>
-        </article>
-
-        <article className="stat-card ai">
-          <Star />
-          <span>Ventas demo</span>
-          <strong>{money(salesTotal)}</strong>
-          <p>Total generado por pedidos registrados.</p>
-        </article>
-      </section>
-
       <section className="seller-store-grid">
-        <article className="card padded seller-store-info-card">
+        <article className="card padded seller-store-info-card" ref={storeInfoRef}>
           <div className="seller-store-section-title">
             <span className="eyebrow">Información visible para clientes</span>
             <h2>Datos de la tienda</h2>

@@ -140,6 +140,12 @@
   gap: 13px;
 }
 
+.seller-store-status {
+  width: fit-content;
+  max-width: 100%;
+  justify-self: start;
+}
+
 .seller-store-hero h1 {
   margin: 0;
   color: var(--color-primary-dark);
