@@ -14,7 +14,7 @@ export default function MarketplacePage() {
   }), [query, category, data]);
 
   return (
-    <div className="page narrow">
+    <div className="page narrow marketplace-page">
       <section className="page-header">
         <span className="eyebrow">Soy cliente / turista</span>
         <h1>Explora negocios locales</h1>
