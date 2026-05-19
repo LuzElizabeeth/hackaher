@@ -76,7 +76,7 @@ export default function LandingPage() {
       whiteSpace: "nowrap",
     }}
   >
-    Controla, conecta y crece
+    Controla, conecta y crece.
   </span>
 </div>
 </div>

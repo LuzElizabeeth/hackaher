@@ -129,7 +129,7 @@ function inferSuggestedPrice(form: CatalogForm) {
 
   if (form.type === "servicio") {
     if (name.includes("foto") || name.includes("sesión") || name.includes("sesion")) return 900;
-    if (name.includes("uñas") || name.includes("unas") || name.includes("cejas")) return 300;
+    if (name.includes("uñas") || name.includes("uñas") || name.includes("cejas")) return 300;
     return 450;
   }
 
