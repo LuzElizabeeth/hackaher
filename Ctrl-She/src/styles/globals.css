@@ -1554,12 +1554,22 @@ select {
   color: #0f172a;
 }
 
+.store-hero p {
+  color: #64748b;
+}
+
 .action-strip {
   margin: 22px 0;
   padding: 16px;
   border-radius: 22px;
   background: white;
   box-shadow: var(--shadow-soft);
+}
+
+.action-strip .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 @media (max-width: 920px) {
