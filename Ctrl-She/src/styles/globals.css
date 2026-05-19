@@ -1403,7 +1403,13 @@ select {
 .text-yellow { color: var(--color-yellow); }
 
 .tools-section {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-purple));
+  padding: 100px 8%;
+  background: linear-gradient(
+    135deg,
+    #fbfbfb 0%,
+    #fcfcfd 50%,
+    #fbfafc 100%
+  );
 }
 
 .section-heading.invert h2,
@@ -1422,11 +1428,11 @@ select {
 
 .redesign-features article {
   padding: 26px;
-  border: 1px solid rgba(255,255,255,.18);
+  border: 1px solid rgba(85, 58, 141, 0.35);
   border-radius: 20px;
-  color: white;
-  background: rgba(255,255,255,.10);
-  backdrop-filter: blur(8px);
+  color: rgb(255, 255, 255);
+  background: rgba(116, 15, 163, 0.45);
+  backdrop-filter: blur(px);
 }
 
 .redesign-features article span {

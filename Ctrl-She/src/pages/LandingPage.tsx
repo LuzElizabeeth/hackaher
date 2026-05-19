@@ -189,9 +189,22 @@ export default function LandingPage() {
 
       <section className="tools-section">
         <div className="section-heading center invert">
-          <h2>Herramientas que te empoderan</h2>
-          <p>Todo lo necesario para gestionar un negocio local de forma más clara y eficiente.</p>
-        </div>
+  <h2
+    style={{
+      color: "#1f1f1f",
+    }}
+  >
+    Herramientas que te empoderan
+  </h2>
+
+  <p
+    style={{
+      color: "#4b5563",
+    }}
+  >
+    Todo lo necesario para gestionar un negocio local de forma más clara y eficiente.
+  </p>
+</div>
         <div className="feature-grid redesign-features">
           {features.map(([Icon, title, description]) => (
             <article key={String(title)}>
