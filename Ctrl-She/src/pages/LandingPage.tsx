@@ -108,13 +108,26 @@ export default function LandingPage() {
             <div className="store-mini-header">
               <div className="mini-icon"><Star size={20} /></div>
               <div>
-                <strong>Artesanías Maya Kaan</strong>
-                <span>Mercado 28, Centro</span>
+                <strong>Tu negocio. Tu tiempo. Tu control.</strong>
+                <span>Una plataforma digital para que mujeres emprendedoras compartan su tienda, reciban pedidos, usen IA comercial y recuperen control sobre su tiempo.
+
+</span>
               </div>
             </div>
-            <div className="store-mini-art"><Palette size={76} /></div>
+            <div className="store-mini-art">
+  <img
+    src="/logo.png"
+    alt="Ctrl She"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      padding: "20px",
+    }}
+  />
+</div>
             <div className="store-mini-footer">
-              <span className="rating"><Star size={16} fill="currentColor" /> 4.8</span>
+              <span className="rating"><Star size={16} fill="currentColor" /> </span>
               <span className="whatsapp-chip"><MessageSquare size={16} /> WhatsApp</span>
             </div>
           </div>
