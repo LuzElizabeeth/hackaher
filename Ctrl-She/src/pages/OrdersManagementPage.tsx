@@ -276,7 +276,7 @@ export default function OrdersManagementPage() {
               Cuando una clienta confirme una compra, servicio o experiencia, aparecerá aquí con sus datos de seguimiento.
             </p>
             <Link className="btn primary" to="/explorar">
-              Crear pedido de prueba
+              Crear pedido
             </Link>
           </div>
         ) : (
