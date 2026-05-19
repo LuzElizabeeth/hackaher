@@ -44,6 +44,17 @@ export const businesses: Business[] = [
         stock: 4,
         delivery: "Entrega en punto de venta",
         image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: "collar-conchas",
+        businessId: "artesanias-lupita",
+        type: "producto",
+        name: "Collar de conchas",
+        description: "Collar artesanal con conchas naturales y acabado ajustable.",
+        price: 180,
+        stock: 6,
+        delivery: "Entrega en punto de venta",
+        image: "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=900&q=80"
       }
     ],
     reviews: [

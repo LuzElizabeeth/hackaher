@@ -164,6 +164,26 @@ textarea { min-height: 112px; resize: vertical; }
 .details-grid { display: grid; gap: 8px; margin: 14px 0; font-size: .92rem; }
 .empty { padding: 28px; border-radius: var(--radius-card); background: white; color: var(--color-muted); border: 1px dashed var(--color-info); }
 
+.catalog-grid {
+  align-items: stretch;
+}
+
+.catalog-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.catalog-card .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.catalog-card .btn {
+  margin-top: auto;
+}
+
 .store-hero {
   display: grid;
   grid-template-columns: 340px 1fr;
