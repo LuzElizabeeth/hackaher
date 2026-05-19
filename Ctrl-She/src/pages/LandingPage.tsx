@@ -97,20 +97,14 @@ export default function LandingPage() {
 
           <div className="hero-preview-card" aria-label="Vista previa de negocio destacado">
             <div className="store-mini-header">
-              <div className="mini-icon"><Star size={20} /></div>
-              <div>
-                <span>Una plataforma digital para que mujeres emprendedoras compartan su tienda, reciban pedidos, usen IA comercial y recuperen control sobre su tiempo.
-
-</span>
-              </div>
             </div>
             <div className="store-mini-art">
   <img
-  src="/logo.png"
+  src="/ctrlshe.png"
   alt="Ctrl She"
   style={{
     width: "72%",
-    maxWidth: "420px",
+    maxWidth: "px",
     objectFit: "contain",
     display: "block",
     margin: "0 auto",
