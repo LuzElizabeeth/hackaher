@@ -163,6 +163,15 @@ textarea { min-height: 112px; resize: vertical; }
 .meta, .rating, .details-grid span, .review-card span { display: inline-flex; align-items: center; gap: 6px; color: var(--color-primary); font-weight: 750; }
 .details-grid { display: grid; gap: 8px; margin: 14px 0; font-size: .92rem; }
 .empty { padding: 28px; border-radius: var(--radius-card); background: white; color: var(--color-muted); border: 1px dashed var(--color-info); }
+.store-purchase-alert {
+  margin: 12px 0 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  color: #1e40af;
+  background: #dbeafe;
+  font-weight: 800;
+  line-height: 1.45;
+}
 
 .catalog-grid {
   align-items: stretch;

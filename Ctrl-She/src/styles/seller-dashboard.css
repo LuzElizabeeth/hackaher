@@ -244,6 +244,11 @@
 
 .seller-store-grid.bottom {
   grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr);
+  align-items: stretch;
+}
+
+.seller-store-grid.bottom > .card {
+  height: 100%;
 }
 
 .seller-store-section-title h2 {

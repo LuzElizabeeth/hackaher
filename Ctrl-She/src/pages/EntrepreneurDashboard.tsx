@@ -4,7 +4,6 @@ import {
   ClipboardList,
   Edit3,
   Eye,
-  Image as ImageIcon,
   MapPin,
   Package,
   Save,
@@ -15,17 +14,11 @@ import {
   X
 } from "lucide-react";
 import ReviewCard from "../components/ReviewCard";
-import { getBusinesses, money, saveBusinesses } from "../lib/storage";
+import { getBusinesses, saveBusinesses } from "../lib/storage";
 import type { Business } from "../types";
 import "../styles/seller-dashboard.css";
 
 type StoreForm = Pick<Business, "name" | "owner" | "description" | "phone" | "zone" | "hours" | "image">;
-
-function getItemDetail(item: Business["items"][number]) {
-  if (item.type === "producto") return `${item.stock ?? 0} disponibles · ${item.delivery || "Entrega por acordar"}`;
-  if (item.type === "servicio") return `${item.duration || "Duración por definir"} · ${item.locationMode || "Modalidad por acordar"}`;
-  return `${item.duration || "Duración por definir"} · Cupo ${item.capacity ?? "por definir"}`;
-}
 
 export default function EntrepreneurDashboard() {
   const [businesses, setBusinesses] = useState(getBusinesses());
@@ -54,7 +47,6 @@ export default function EntrepreneurDashboard() {
   }
 
   const storeUrl = `${window.location.origin}/tienda/${business.id}`;
-  const visibleItems = business.items.filter((item) => item.type === business.type).slice(0, 3);
 
   const updateForm = (field: keyof StoreForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -207,27 +199,15 @@ export default function EntrepreneurDashboard() {
       </section>
 
       <section className="seller-store-grid bottom">
-        <article className="card padded">
-          <div className="seller-store-section-title row between">
-            <div>
-              <span className="eyebrow">Catálogo</span>
-              <h2>Publicaciones recientes</h2>
-            </div>
-            <Link className="btn small outline" to="/catalogo">Editar</Link>
+        <article className="card padded seller-store-reviews">
+          <div className="seller-store-section-title">
+            <span className="eyebrow">Opiniones</span>
+            <h2>Reseñas recibidas</h2>
           </div>
 
-          <div className="seller-store-items">
-            {visibleItems.map((item) => (
-              <div className="seller-store-item" key={item.id}>
-                <div className="seller-store-item-image">
-                  {item.image ? <img src={item.image} alt={item.name} /> : <ImageIcon />}
-                </div>
-                <div>
-                  <strong>{item.name}</strong>
-                  <span>{money(item.price)}</span>
-                  <p>{getItemDetail(item)}</p>
-                </div>
-              </div>
+          <div className="reviews-grid one-col">
+            {business.reviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
             ))}
           </div>
         </article>
@@ -244,19 +224,6 @@ export default function EntrepreneurDashboard() {
             <p><Store size={18} /> {business.category}</p>
           </div>
         </article>
-      </section>
-
-      <section className="card padded seller-store-reviews">
-        <div className="seller-store-section-title">
-          <span className="eyebrow">Opiniones</span>
-          <h2>Reseñas recibidas</h2>
-        </div>
-
-        <div className="reviews-grid one-col">
-          {business.reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
-        </div>
       </section>
     </div>
   );
