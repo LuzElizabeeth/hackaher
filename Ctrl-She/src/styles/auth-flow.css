@@ -92,16 +92,28 @@
 }
 
 .login-page .visitor-link {
-  margin: 14px 22px 20px;
-  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(360px, calc(100% - 44px));
+  min-height: 40px;
+  margin: 12px auto 26px;
+  padding: 0 22px;
+  border: 1px solid rgba(29, 78, 216, .24);
+  border-radius: 999px;
+  color: var(--color-primary);
+  font-size: .95rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.login-page .visitor-link:hover {
+  color: #1e40af;
+  background: rgba(29, 78, 216, .08);
 }
 
 @media (max-width: 720px) {
   .auth-business-type-grid {
     grid-template-columns: 1fr;
-  }
-
-  .login-page .visitor-link {
-    margin-inline: 0;
   }
 }

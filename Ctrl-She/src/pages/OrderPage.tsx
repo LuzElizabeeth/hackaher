@@ -123,23 +123,24 @@ export default function OrderPage() {
   const copy = flowCopy[item?.type ?? "producto"];
   const defaultModality = item?.delivery || item?.locationMode || item?.meetingPoint || copy.defaultModality;
 
-  const [name, setName] = useState("Cliente demo");
-  const [contact, setContact] = useState("cliente@ctrlshe.demo");
-  const [quantity, setQuantity] = useState(1);
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [delivery, setDelivery] = useState(defaultModality);
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [date, setDate] = useState("");
+  const [delivery, setDelivery] = useState("");
   const [payment, setPayment] = useState<PaymentMethod>("Tarjeta bancaria");
   const [receipt, setReceipt] = useState(true);
   const [confirmedFolio, setConfirmedFolio] = useState<string | null>(null);
   const [receiptView, setReceiptView] = useState(false);
 
-  const [cardName, setCardName] = useState("María Fernanda López");
-  const [cardNumber, setCardNumber] = useState("4242 4242 4242 4242");
-  const [expiry, setExpiry] = useState("12/28");
-  const [securityCode, setSecurityCode] = useState("123");
-  const [bankReference, setBankReference] = useState("CTRL-SHE-2026");
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
+  const [bankReference, setBankReference] = useState("");
 
-  const amount = useMemo(() => (item?.price || 0) * quantity, [item, quantity]);
+  const selectedQuantity = Math.max(1, Number(quantity) || 0);
+  const amount = useMemo(() => (item?.price || 0) * selectedQuantity, [item, selectedQuantity]);
 
   if (!business || !item) {
     return (
@@ -169,11 +170,11 @@ export default function OrderPage() {
       itemName: item.name,
       businessName: business.name,
       amount,
-      quantity,
-      customerName: name || "Cliente demo",
-      contact: contact || "cliente@ctrlshe.demo",
-      date,
-      deliveryMode: delivery,
+      quantity: selectedQuantity,
+      customerName: name || "Nombre del cliente",
+      contact: contact || "correo@gmail.com",
+      date: date || "Fecha por confirmar",
+      deliveryMode: delivery || defaultModality,
       paymentMethod: payment,
       needsReceipt: receipt,
       status: "Confirmado",
@@ -211,11 +212,11 @@ export default function OrderPage() {
           <div className="summary-list">
             <p>
               <CalendarCheck size={16} />
-              {copy.dateLabel}: <b>{date}</b>
+              {copy.dateLabel}: <b>{date || "Fecha por confirmar"}</b>
             </p>
             <p>
               <MapPin size={16} />
-              {copy.modalityLabel}: <b>{delivery}</b>
+              {copy.modalityLabel}: <b>{delivery || defaultModality}</b>
             </p>
             <p>
               <ReceiptText size={16} />
@@ -247,29 +248,30 @@ export default function OrderPage() {
                   type="number"
                   min="1"
                   value={quantity}
-                  onChange={(event) => setQuantity(Math.max(1, Number(event.target.value)))}
+                  onChange={(event) => setQuantity(event.target.value)}
+                  placeholder="Cantidad"
                 />
               </label>
 
               <label>
                 {copy.dateLabel}
-                <input type="date" value={date} onChange={(event) => setDate(event.target.value)} />
+                <input value={date} onChange={(event) => setDate(event.target.value)} placeholder="Fecha estimada de entrega" />
               </label>
 
               <label>
                 Nombre del cliente
-                <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Tu nombre" />
+                <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Nombre del cliente" />
               </label>
 
               <label>
                 Teléfono o correo
-                <input value={contact} onChange={(event) => setContact(event.target.value)} placeholder="correo o teléfono" />
+                <input value={contact} onChange={(event) => setContact(event.target.value)} placeholder="correo@gmail.com" />
               </label>
             </div>
 
             <label>
               {copy.modalityLabel}
-              <input value={delivery} onChange={(event) => setDelivery(event.target.value)} />
+              <input value={delivery} onChange={(event) => setDelivery(event.target.value)} placeholder={copy.modalityLabel} />
             </label>
           </section>
 
@@ -303,7 +305,11 @@ export default function OrderPage() {
               <div className="bank-form">
                 <label>
                   Nombre en la tarjeta
-                  <input value={cardName} onChange={(event) => setCardName(event.target.value)} />
+                  <input
+                    value={cardName}
+                    onChange={(event) => setCardName(event.target.value)}
+                    placeholder="Nombre en la tarjeta"
+                  />
                 </label>
 
                 <label>
@@ -313,13 +319,19 @@ export default function OrderPage() {
                     value={cardNumber}
                     onChange={(event) => setCardNumber(formatCardNumber(event.target.value))}
                     maxLength={19}
+                    placeholder="0000 0000 0000 0000"
                   />
                 </label>
 
                 <div className="form-grid compact">
                   <label>
                     Vencimiento
-                    <input value={expiry} onChange={(event) => setExpiry(formatExpiry(event.target.value))} maxLength={5} />
+                    <input
+                      value={expiry}
+                      onChange={(event) => setExpiry(formatExpiry(event.target.value))}
+                      maxLength={5}
+                      placeholder="mm/aa"
+                    />
                   </label>
 
                   <label>
@@ -329,6 +341,7 @@ export default function OrderPage() {
                       value={securityCode}
                       onChange={(event) => setSecurityCode(event.target.value.replace(/\D/g, "").slice(0, 4))}
                       maxLength={4}
+                      placeholder="CVV"
                     />
                   </label>
                 </div>
@@ -347,7 +360,11 @@ export default function OrderPage() {
                 </div>
                 <label>
                   Referencia bancaria
-                  <input value={bankReference} onChange={(event) => setBankReference(event.target.value)} />
+                  <input
+                    value={bankReference}
+                    onChange={(event) => setBankReference(event.target.value)}
+                    placeholder="Referencia bancaria"
+                  />
                 </label>
               </div>
             )}
@@ -457,7 +474,7 @@ export default function OrderPage() {
                   </div>
 
                   <div className="receipt-detail-list">
-                    <p><span>Cliente</span><b>{name || "Cliente demo"}</b></p>
+                    <p><span>Cliente</span><b>{name || "Nombre del cliente"}</b></p>
                     <p><span>Negocio</span><b>{business.name}</b></p>
                     <p><span>Concepto</span><b>{item.name}</b></p>
                     <p><span>Fecha</span><b>{date}</b></p>

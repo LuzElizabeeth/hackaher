@@ -115,7 +115,7 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <Link className="btn outline full visitor-link" to="/explorar">
+        <Link className="visitor-link" to="/explorar">
           Explorar como visitante
         </Link>
 

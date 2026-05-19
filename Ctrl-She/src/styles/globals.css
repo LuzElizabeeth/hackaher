@@ -542,10 +542,16 @@ textarea { min-height: 112px; resize: vertical; }
 .payment-page { max-width: 1180px; }
 
 .payment-header {
-  padding: 26px;
+  padding: clamp(28px, 4vw, 42px);
   border: 1px solid rgba(171, 157, 255, .35);
   border-radius: 28px;
-  background: radial-gradient(circle at 90% 10%, rgba(255, 178, 247, .32), transparent 28%), linear-gradient(135deg, #fff, #f8f5ff);
+  background: #fff;
+}
+
+.payment-header h1,
+.payment-header p,
+.payment-header .eyebrow {
+  margin-left: 0;
 }
 
 .payment-layout { align-items: start; }
@@ -560,6 +566,11 @@ textarea { min-height: 112px; resize: vertical; }
 }
 
 .payment-summary { gap: 14px; }
+
+.payment-summary > .badge {
+  justify-self: start;
+  width: fit-content;
+}
 .payment-form { gap: 22px; }
 .summary-list { gap: 10px; }
 .bank-form { gap: 13px; }
@@ -576,7 +587,7 @@ textarea { min-height: 112px; resize: vertical; }
   padding: 18px;
   border-radius: 22px;
   color: white;
-  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  background: var(--color-primary);
 }
 
 .payment-total-box span,
@@ -637,7 +648,7 @@ textarea { min-height: 112px; resize: vertical; }
   padding: 18px;
   border: 1px solid rgba(171, 157, 255, .28);
   border-radius: 22px;
-  background: rgba(248, 245, 255, .72);
+  background: #fff;
 }
 
 .form-block-title > span {
@@ -1049,7 +1060,7 @@ select {
 
 .chip.active,
 .chip:hover {
-  background: #ef4444;
+  background: var(--color-purple);
   border-color: var(--color-purple);
   color: white;
 }
@@ -1513,6 +1524,11 @@ select {
 .page.narrow .page-header {
   padding: 34px 0 18px;
   border-bottom: 1px solid #e2e8f0;
+}
+
+.page.narrow .payment-header {
+  padding: clamp(28px, 4vw, 42px);
+  border: 1px solid rgba(171, 157, 255, .35);
 }
 
 .page.narrow .page-header h1 {
