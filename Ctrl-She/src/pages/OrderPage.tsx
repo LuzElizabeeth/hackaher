@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { getBusinesses, makeFolio, money, saveOrder } from "../lib/storage";
 import type { BusinessType, OrderStatus } from "../types";
+import { useAuth } from "../auth/AuthContext";
 
 const statuses: OrderStatus[] = [
   "Solicitado",
@@ -114,6 +115,7 @@ function formatExpiry(value: string) {
 }
 
 export default function OrderPage() {
+  const { role } = useAuth();
   const [params] = useSearchParams();
   const business = getBusinesses().find((entry) => entry.id === params.get("business"));
   const item = business?.items.find((entry) => entry.id === params.get("item"));
@@ -143,6 +145,16 @@ export default function OrderPage() {
     return (
       <div className="page">
         <div className="empty">Selecciona un producto, servicio o experiencia desde una tienda.</div>
+      </div>
+    );
+  }
+
+  if (role === "emprendedora" && business.id === "artesanias-lupita") {
+    return (
+      <div className="page narrow payment-page">
+        <div className="empty">
+          Esta es tu tienda. Puedes revisar la vista pública, pero no puedes comprar tus propios productos.
+        </div>
       </div>
     );
   }

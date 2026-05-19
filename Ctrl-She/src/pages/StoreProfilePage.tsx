@@ -29,6 +29,7 @@ export default function StoreProfilePage() {
   const [hasReviewed, setHasReviewed] = useState(() =>
     Boolean(reviewStorageKey && localStorage.getItem(reviewStorageKey))
   );
+  const isOwnSellerStore = role === "emprendedora" && id === "artesanias-lupita";
 
   if (!business) {
     return (
@@ -41,6 +42,10 @@ export default function StoreProfilePage() {
   const canReview = isAuthenticated && role === "cliente";
 
   const selectItem = (item: CatalogItem) => {
+    if (isOwnSellerStore) {
+      return;
+    }
+
     if (!isAuthenticated) {
       navigate("/login");
       return;
@@ -189,8 +194,14 @@ const shareStore = async () => {
 </div>
 
       <section className="section">
-  <div>
+    <div>
     <h2 id="catalogo">Catálogo</h2>
+
+    {isOwnSellerStore && (
+      <div className="store-purchase-alert">
+        Esta es tu tienda. Puedes revisarla como vendedora, pero no puedes comprar tus propios productos.
+      </div>
+    )}
 
     <div className="catalog-grid">
       {business.items.map((item) => (
@@ -198,6 +209,7 @@ const shareStore = async () => {
           key={item.id}
           item={item}
           onSelect={selectItem}
+          disabled={isOwnSellerStore}
         />
       ))}
     </div>

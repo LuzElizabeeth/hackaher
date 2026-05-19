@@ -3,7 +3,15 @@ import { useState } from "react";
 import type { CatalogItem } from "../types";
 import { money } from "../lib/storage";
 
-export default function ProductCard({ item, onSelect }: { item: CatalogItem; onSelect: (item: CatalogItem) => void }) {
+export default function ProductCard({
+  item,
+  onSelect,
+  disabled = false
+}: {
+  item: CatalogItem;
+  onSelect: (item: CatalogItem) => void;
+  disabled?: boolean;
+}) {
   const [failed, setFailed] = useState(false);
   const action = item.type === "producto" ? "Comprar en línea" : item.type === "servicio" ? "Reservar servicio" : "Reservar experiencia";
   const depositLabel = item.type === "producto" ? null : item.deposit ? `Reserva en línea ${item.deposit}` : "Pago en línea";
@@ -36,7 +44,7 @@ export default function ProductCard({ item, onSelect }: { item: CatalogItem; onS
           {item.language && <span>{item.language}</span>}
           {item.meetingPoint && <span><MapPin size={15} /> {item.meetingPoint}</span>}
         </div>
-<button className="btn primary full" onClick={() => onSelect(item)}>
+<button className="btn primary full" onClick={() => onSelect(item)} disabled={disabled}>
   {item.type === "producto" ? <Package size={18} /> : <CalendarCheck size={18} />}
   {action}
 </button>     
