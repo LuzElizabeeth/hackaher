@@ -17,6 +17,7 @@ import OrdersManagementPage from "./pages/OrdersManagementPage";
 import QRPage from "./pages/QRPage";
 import SellerCatalogPage from "./pages/SellerCatalogPage";
 import FloatingAssistant from "./components/FloatingAssistant";
+import SellerStockAssistant from "./components/SellerStockAssistant";
 
 export default function App() {
   return (
@@ -156,6 +157,7 @@ export default function App() {
       </main>
 
       <FloatingAssistant />
+      <SellerStockAssistant />
 
       <footer className="footer">
         Ctrl + She · Controla, conecta y crece.
