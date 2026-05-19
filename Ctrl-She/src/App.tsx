@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import OrdersManagementPage from "./pages/OrdersManagementPage";
 import QRPage from "./pages/QRPage";
 import SellerCatalogPage from "./pages/SellerCatalogPage";
+import FloatingAssistant from "./components/FloatingAssistant";
 
 export default function App() {
   return (
@@ -153,6 +154,8 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
+
+      <FloatingAssistant />
 
       <footer className="footer">
         Ctrl + She · Controla, conecta y crece.
