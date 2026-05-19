@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { CalendarCheck, MessageCircle, MapPin, Share2, ShoppingBag, Star } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import ReviewCard from "../components/ReviewCard";
@@ -30,6 +30,10 @@ export default function StoreProfilePage() {
     Boolean(reviewStorageKey && localStorage.getItem(reviewStorageKey))
   );
   const isOwnSellerStore = role === "emprendedora" && id === "artesanias-lupita";
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [id]);
 
   if (!business) {
     return (
