@@ -143,33 +143,46 @@ export default function LandingPage() {
       </section>
 
       <section className="home-section problem-solution-section">
-        <article>
-          <span className="eyebrow">El problema</span>
-          <h2>Las emprendedoras enfrentan una doble jornada</h2>
-          <p>
-            Pedidos en mensajes, catálogos dispersos, reservas manuales y poca visibilidad digital
-            consumen tiempo que podría invertirse en vender, crear y crecer.
-          </p>
-          <ul className="check-list warning">
-            <li>Falta de tiempo para gestionar presencia digital.</li>
-            <li>Dificultad para conectar con turistas y clientes nuevos.</li>
-            <li>Procesos manuales para pedidos, reservas y comprobantes.</li>
-          </ul>
-        </article>
-        <article>
-          <span className="eyebrow success-text">La solución</span>
-          <h2>Ctrl + She ordena tu operación diaria</h2>
-          <p>
-            La plataforma reúne tienda, catálogo, pedidos, reseñas e IA comercial en un flujo
-            sencillo para clientes y emprendedoras.
-          </p>
-          <ul className="check-list success">
-            <li>IA para descripciones, preguntas frecuentes y traducciones.</li>
-            <li>Tienda pública compartible para vender con mayor confianza.</li>
-            <li>Panel para administrar productos, pedidos y solicitudes.</li>
-          </ul>
-        </article>
-      </section>
+
+  <article>
+    <span className="eyebrow">MISIÓN</span>
+
+    <h2>
+      Impulsar a las mujeres emprendedoras mediante herramientas digitales accesibles
+    </h2>
+
+    <p>
+      Ctrl + She busca facilitar la gestión de negocios locales en Cancún mediante
+      tecnología sencilla, automatización e integración digital.
+    </p>
+
+    <ul className="check-list success">
+      <li>Digitalizar emprendimientos liderados por mujeres.</li>
+      <li>Reducir tiempo en tareas administrativas.</li>
+      <li>Conectar negocios con más clientes y turistas.</li>
+    </ul>
+  </article>
+
+  <article>
+    <span className="eyebrow success-text">VISIÓN</span>
+
+    <h2>
+      Convertirse en la plataforma líder para emprendedoras locales en México
+    </h2>
+
+    <p>
+      Queremos construir una comunidad donde las emprendedoras puedan crecer,
+      organizarse y fortalecer la economía local a través de la tecnología.
+    </p>
+
+    <ul className="check-list success">
+      <li>Expandir la visibilidad de negocios locales.</li>
+      <li>Fomentar independencia económica y digital.</li>
+      <li>Crear una red de apoyo y crecimiento para emprendedoras.</li>
+    </ul>
+  </article>
+
+</section>
 
       <section className="home-section white-section" id="como-funciona">
         <div className="section-heading center">
