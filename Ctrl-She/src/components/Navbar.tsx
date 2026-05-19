@@ -22,8 +22,6 @@ export default function Navbar() {
             ["Mi tienda", "/emprendedora"],
             ["Catálogo", "/catalogo"],
             ["Pedidos", "/pedidos"],
-            ["IA comercial", "/ia"],
-            ["QR", "/qr"]
           ]
             : role === "admin"
         ? [

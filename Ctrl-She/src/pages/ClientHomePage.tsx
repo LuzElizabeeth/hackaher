@@ -64,33 +64,7 @@ export default function ClientHomePage() {
             <h3>Mis pedidos</h3>
             <p>Revisa compras, reservas, estados y comprobantes.</p>
           </Link>
-
-          <Link className="client-shortcut-card card" to="/mis-pedidos">
-            <ReceiptText />
-            <h3>Comprobantes</h3>
-            <p>Accede a comprobantes generados desde tus pedidos.</p>
-          </Link>
         </div>
-      </section>
-
-      <section className="section client-interest-section">
-        <article className="card padded">
-          <CalendarCheck />
-          <h2>Reserva sin complicarte</h2>
-          <p>
-            Agenda servicios o experiencias sin llenar formularios largos. El flujo está
-            pensado para que el comprador avance rápido y entienda cada paso.
-          </p>
-        </article>
-
-        <article className="card padded">
-          <Sparkles />
-          <h2>Compra con más confianza</h2>
-          <p>
-            Consulta perfiles de tiendas, reseñas, datos de contacto, métodos de pago
-            y comprobantes antes de finalizar.
-          </p>
-        </article>
       </section>
 
       <section className="section">
