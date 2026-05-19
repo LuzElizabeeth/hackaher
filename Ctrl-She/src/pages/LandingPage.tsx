@@ -218,7 +218,7 @@ export default function LandingPage() {
 
       <section className="home-section testimonials-section">
         <div className="section-heading center">
-          <h2>Emprendedoras que ya usan Ctrl + She</h2>
+          <h2>Emprendedoras que ya usan Ctrl+She</h2>
           <p>Historias demo para mostrar el impacto de la plataforma.</p>
         </div>
         <div className="testimonial-grid">
