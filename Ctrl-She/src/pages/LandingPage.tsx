@@ -50,11 +50,40 @@ export default function LandingPage() {
         <div className="hero-pattern" />
         <div className="home-hero-grid">
           <div className="home-hero-copy">
-            <span className="pill-label"><Sparkles size={16} /> Plataforma para mujeres emprendedoras</span>
-            <h1>Toma el <span>control</span> de tu negocio local</h1>
+            <span className="pill-label"><Sparkles size={16} /> Plataforma para mujeres emprendedoras de Cancún</span>
+            <div className="hero-branding">
+<h1
+  className="hero-logo-text"
+  style={{
+    color: "#14148e",
+  }}
+>
+  Ctrl + She
+</h1>
+  <div
+  className="hero-tagline"
+  style={{
+    gap: "10px",
+    flexWrap: "nowrap",
+    alignItems: "center",
+  }}
+>
+  <span
+    style={{
+      fontSize: "clamp(1.3rem, 2.8vw, 2.8rem)",
+      color: "#2d2d2d",
+      fontWeight: 800,
+      whiteSpace: "nowrap",
+    }}
+  >
+    Controla, conecta y crece
+  </span>
+</div>
+</div>
             <p>
-              Ctrl + She automatiza tareas para que dediques menos tiempo a lo administrativo
-              y más a lo que amas. Conecta con turistas y clientes locales en Cancún.
+              <p className="hero-description">
+  Automatiza tu negocio, conecta con más clientes y haz crecer tu emprendimiento en Cancún.
+</p>
             </p>
             <div className="cta-row">
               <Link className="btn primary" to="/explorar">
