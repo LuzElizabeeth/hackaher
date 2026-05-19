@@ -5,7 +5,8 @@
 
 .review-area {
   display: grid;
-  gap: 18px;
+  gap: 28px;
+  padding: 36px 28px 28px;
 }
 
 .review-area-header {
@@ -28,11 +29,11 @@
 .review-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
+  gap: 24px;
 }
 
 .review-item-card {
-  padding: 18px;
+  padding: 24px;
   border: 1px solid rgba(171, 157, 255, .28);
   border-radius: 20px;
   background: #fff;
@@ -107,8 +108,8 @@
 
 .review-disabled-panel {
   display: grid;
-  gap: 12px;
-  padding: 20px;
+  gap: 18px;
+  padding: 28px;
   border: 1px dashed rgba(124, 58, 237, .35);
   border-radius: 22px;
   background: rgba(248, 245, 255, .75);
@@ -195,6 +196,10 @@
 }
 
 @media (max-width: 720px) {
+  .review-area {
+    padding-inline: 14px;
+  }
+
   .review-area-header {
     align-items: flex-start;
     flex-direction: column;
