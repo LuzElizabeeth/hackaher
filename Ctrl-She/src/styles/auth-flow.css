@@ -56,7 +56,7 @@
 .auth-business-type-card.active {
   transform: translateY(-2px);
   border-color: var(--color-primary);
-  box-shadow: 0 12px 24px rgba(124, 58, 237, .12);
+  box-shadow: 0 12px 24px rgba(29, 78, 216, .12);
 }
 
 .auth-demo-note {
@@ -67,8 +67,41 @@
   font-weight: 800;
 }
 
+.login-page .chip.active,
+.login-page .chip:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.login-page .btn.outline {
+  color: var(--color-primary);
+  border-color: rgba(29, 78, 216, .24);
+}
+
+.login-page .btn.outline:hover {
+  background: rgba(29, 78, 216, .08);
+}
+
+.login-page .role-field legend {
+  color: var(--color-primary);
+}
+
+.login-page .login-brand h1 {
+  color: var(--color-primary);
+}
+
+.login-page .visitor-link {
+  margin: 14px 22px 20px;
+  width: auto;
+}
+
 @media (max-width: 720px) {
   .auth-business-type-grid {
     grid-template-columns: 1fr;
+  }
+
+  .login-page .visitor-link {
+    margin-inline: 0;
   }
 }

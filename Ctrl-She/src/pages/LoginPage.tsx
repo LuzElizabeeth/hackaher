@@ -115,6 +115,10 @@ export default function LoginPage() {
           </button>
         </div>
 
+        <Link className="btn outline full visitor-link" to="/explorar">
+          Explorar como visitante
+        </Link>
+
         <form className="form" onSubmit={submit}>
           <label htmlFor="email">
             Correo
@@ -123,7 +127,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder="Opcional para demo"
+              placeholder="Correo"
             />
           </label>
 
@@ -134,7 +138,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              placeholder="Opcional para demo"
+              placeholder="Contraseña"
             />
           </label>
 
@@ -213,10 +217,6 @@ export default function LoginPage() {
           <button className="btn primary full" type="submit">
             {mode === "login" ? "Iniciar sesión" : "Registrarme"}
           </button>
-
-          <Link className="btn outline full" to="/explorar">
-            Explorar como visitante
-          </Link>
         </form>
       </section>
     </div>
